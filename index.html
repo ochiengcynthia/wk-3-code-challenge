@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Movie Cinema</title>
+        <script src="index.js"></script>
+                <link rel="stylesheet" href="style.css" />
+            </head>
+    <body onload="loadMovieDetails()">
+
+        <div class="container">
+            <h1>Welcome to Movie Cinema</h1>
+            </div>
+
+        <div class="container-1">
+            <h2>Movie List</h2>
+        <ul id="films"></ul>
+        </div>
+
+        <div class="container-2">
+        <h2>Movie Details</h2>
+        <div id="movie-details"></div>
+        <button id="buy-ticket-btn">Buy Ticket</button>
+        </div>
+        </div>
+
+    <script>
+        function loadMovieDetails() {
+            const movieDetailsElement = document.getElementById("movie-details");
+            fetch("http://localhost:3000/films/3")
+            .then((response) => response.json())
+            .then((movie) => {
+                const ticketsAvailable = movie.capacity - movie.tickets_sold;
+                const movieDetails = `
+                <div>
+                    <img src="${movie.poster}" alt="${movie.title}"/>
+                    <h3>${movie.title}</h3>
+                    <p>Runtime: ${movie.runtime} minutes</p>
+                    <p>Showtime: ${movie.showtime}</p>
+                    <p>Tickets Available: ${ticketsAvailable}</p>
+                    <p>Description: ${movie.description}</p>
+                    </div>`;
+                    movieDetailsElement.innerHTML = movieDetails;
+                })
+                .catch((error) => console.error(error));
+        }
+        </script>
+    </body>
+</html>
